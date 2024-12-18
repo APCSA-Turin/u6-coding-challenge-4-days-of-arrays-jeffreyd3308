@@ -12,8 +12,7 @@ public class Day4 {
         private int runDuration;
         private int restDuration;
         private int distance;
-        private static boolean inRest = false;
-        private static int time = 0;
+        private int time = 0;
 
         // Constructor 
         public Reindeer(String name, int speed, int runDuration, int restDuration) {
@@ -35,13 +34,10 @@ public class Day4 {
 
         public void simulateSecond(){ //this method is required but not tested
             time++;
-            if (!inRest) {
+            if (time <= runDuration) {
                 distance += speed;
-            }
-            if (time % runDuration + restDuration == 0) {
-                inRest = false;
-            } else if (time % runDuration + restDuration >= runDuration) {
-                inRest = true;
+            } else if (time > runDuration + restDuration) {
+                time = 0;
             }
             
         }
@@ -49,7 +45,18 @@ public class Day4 {
     }
 
     public static String simulateRace(int time, Reindeer[] reindeers){ //you will be tested on this method
-        return "";
+        int farthest = 0;
+        String farMan = "";
+        for (int i = time; i > 0; i--) {
+            for (int j = 0; j < reindeers.length; j++) {
+                reindeers[j].simulateSecond();
+                if (farthest < reindeers[j].getDistanceTraveled()) {
+                    farthest = reindeers[j].getDistanceTraveled();
+                    farMan = reindeers[j].getName();
+                }
+            }
+        }
+        return farMan;
     }
 
     
